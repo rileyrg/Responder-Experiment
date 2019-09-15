@@ -18,32 +18,32 @@ void clear_led()   // all LED off
 }
 void Red_YES()  // execute the code until Red light is on; end cycle when reset button is pressed
 {
-  while(digitalRead(KeyRest)==0)
-  {
   digitalWrite(Redled,HIGH);
   digitalWrite(Greenled,LOW);
   digitalWrite(Yellowled,LOW);
+  while(digitalRead(KeyRest)==0)
+  {
   }
   clear_led();
 }
 
 void Yellow_YES()  // execute the code until Yellow light is on; end cycle when reset button is pressed
 {
-  while(digitalRead(KeyRest)==0)
-  {
   digitalWrite(Redled,LOW);
   digitalWrite(Greenled,LOW);
   digitalWrite(Yellowled,HIGH);
+  while(digitalRead(KeyRest)==0)
+  {
   }
   clear_led();
 }
 void Green_YES()   // execute the code until Green light is on; end cycle when reset button is pressed
 {
-  while(digitalRead(KeyRest)==0)
-  {
   digitalWrite(Redled,LOW);
   digitalWrite(Greenled,HIGH);
   digitalWrite(Yellowled,LOW);
+  while(digitalRead(KeyRest)==0)
+  {
   }
   clear_led();
 }
