@@ -23,9 +23,9 @@ void setup()
   pinMode(greenKeyPin,INPUT_PULLUP);
   pinMode(resetKeyPin,INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(resetKeyPin), resetLEDs,FALLING);
-  if(setLED)
+  if(setLED) 
     digitalWrite(setLED,HIGH);
-}
+} 
 
 void loop()         // repeatedly read pins for buttons
 { 
