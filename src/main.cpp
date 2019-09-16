@@ -1,69 +1,46 @@
 #include<Arduino.h>
 
-int Redled=8;     // set Red LED as “output”
-int Yellowled=7;  // set Yellow LED as “output”
-int Greenled=6;   // set Green LED as “output”
-int Key1=5;       // initialize pin for Red button
-int Key2=4;       // initialize pin for Yellow button
-int Key3=3;       // initialize pin for Green button
-int KeyRest=2;    // initialize pin for reset button
-int Red;
-int Yellow;
-int Green;
-void clear_led()   // all LED off
-{
-  digitalWrite(Redled,LOW);
-  digitalWrite(Greenled,LOW);
-  digitalWrite(Yellowled,LOW);
-}
-void Red_YES()  // execute the code until Red light is on; end cycle when reset button is pressed
-{
-  digitalWrite(Redled,HIGH);
-  digitalWrite(Greenled,LOW);
-  digitalWrite(Yellowled,LOW);
-  while(digitalRead(KeyRest)==0)
-  {
-  }
-  clear_led();
-}
+int redLED=8;     // set Red LED as “output”
+int yellowLED=7;  // set Yellow LED as “output”
+int greenLED=6;   // set Green LED as “output”
+int redKey=5;       // initialize pin for Red button
+int yellowKey=4;       // initialize pin for Yellow button
+int greenKey=3;       // initialize pin for Green button
+int resetKey=2;    // initialize pin for reset button
 
-void Yellow_YES()  // execute the code until Yellow light is on; end cycle when reset button is pressed
-{
-  digitalWrite(Redled,LOW);
-  digitalWrite(Greenled,LOW);
-  digitalWrite(Yellowled,HIGH);
-  while(digitalRead(KeyRest)==0)
-  {
-  }
-  clear_led();
-}
-void Green_YES()   // execute the code until Green light is on; end cycle when reset button is pressed
-{
-  digitalWrite(Redled,LOW);
-  digitalWrite(Greenled,HIGH);
-  digitalWrite(Yellowled,LOW);
-  while(digitalRead(KeyRest)==0)
-  {
-  }
-  clear_led();
-}
+int setLED=redLED;
+
+void resetLEDs();
+
 void setup()
 {
-  pinMode(Redled,OUTPUT);
-  pinMode(Yellowled,OUTPUT);
-  pinMode(Greenled,OUTPUT);
-  pinMode(Key1,INPUT);
-  pinMode(Key2,INPUT);
-  pinMode(Key3,INPUT);
-  pinMode(KeyRest,INPUT);
-}
-void loop()         // repeatedly read pins for buttons
-{
-  Red=digitalRead(Key1);
-  Yellow=digitalRead(Key2);
-  Green=digitalRead(Key3);
-  if(Red==HIGH)Red_YES();
-  if(Yellow==HIGH)Yellow_YES();
-  if(Green==HIGH)Green_YES();
+  Serial.begin(9600);
+  pinMode(redLED,OUTPUT);
+  pinMode(yellowLED,OUTPUT);
+  pinMode(greenLED,OUTPUT);
+  pinMode(redKey,INPUT);
+  pinMode(yellowKey,INPUT);
+  pinMode(greenKey,INPUT);
+  pinMode(resetKey,INPUT);
+  attachInterrupt(digitalPinToInterrupt(resetKey), resetLEDs,RISING);
+  if(setLED)
+    digitalWrite(setLED,HIGH);
 }
 
+void loop()         // repeatedly read pins for buttons
+{
+  if(setLED==0){
+    setLED=digitalRead(redKey)?redLED:digitalRead(yellowKey)?yellowLED:digitalRead(greenKey)?greenLED:0;
+    if(setLED){
+      char str[15];
+      Serial.println(sprintf(str,"Key pressed: %u",setLED));
+      digitalWrite(setLED,HIGH);
+    }
+  }
+}
+
+void resetLEDs(){
+  Serial.println("Resetting LEDs");
+  digitalWrite(setLED,LOW);
+  setLED=0;
+}
