@@ -30,7 +30,7 @@ void setup()
 void loop()         // repeatedly read pins for buttons
 {
   if(setLED==0){
-    setLED=!digitalRead(redKeyPin)?redLEDPin:!digitalRead(yellowKeyPin)?!yellowLEDPin:!digitalRead(greenKeyPin)?greenLEDPin:0;
+    setLED=!digitalRead(redKeyPin)?redLEDPin:!digitalRead(yellowKeyPin)?yellowLEDPin:!digitalRead(greenKeyPin)?greenLEDPin:0;
     if(setLED){
       char str[15];
       Serial.println(sprintf(str,"Key pressed: %u",setLED));
