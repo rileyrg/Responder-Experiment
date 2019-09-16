@@ -22,7 +22,7 @@ void setup()
   pinMode(yellowKeyPin,INPUT);
   pinMode(greenKeyPin,INPUT);
   pinMode(resetKeyPin,INPUT);
-  attachInterrupt(digitalPinToInterrupt(resetKeyPin), resetLEDs,RISING);
+  attachInterrupt(digitalPinToInterrupt(resetKeyPin), resetLEDs,FALLING);
   if(setLED)
     digitalWrite(setLED,HIGH);
 }
