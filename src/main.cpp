@@ -18,11 +18,11 @@ void setup()
   pinMode(redLEDPin,OUTPUT);
   pinMode(yellowLEDPin,OUTPUT);
   pinMode(greenLEDPin,OUTPUT);
-  pinMode(redKeyPin,INPUT);
-  pinMode(yellowKeyPin,INPUT);
-  pinMode(greenKeyPin,INPUT);
-  pinMode(resetKeyPin,INPUT);
-  attachInterrupt(digitalPinToInterrupt(resetKeyPin), resetLEDs,RISING);
+  pinMode(redKeyPin,INPUT_PULLUP);
+  pinMode(yellowKeyPin,INPUT_PULLUP);
+  pinMode(greenKeyPin,INPUT_PULLUP);
+  pinMode(resetKeyPin,INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(resetKeyPin), resetLEDs,FALLING);
   if(setLED)
     digitalWrite(setLED,HIGH);
 }
@@ -30,7 +30,7 @@ void setup()
 void loop()         // repeatedly read pins for buttons
 {
   if(setLED==0){
-    setLED=digitalRead(redKeyPin)?redLEDPin:digitalRead(yellowKeyPin)?yellowLEDPin:digitalRead(greenKeyPin)?greenLEDPin:0;
+    setLED=!digitalRead(redKeyPin)?redLEDPin:!digitalRead(yellowKeyPin)?!yellowLEDPin:!digitalRead(greenKeyPin)?greenLEDPin:0;
     if(setLED){
       char str[15];
       Serial.println(sprintf(str,"Key pressed: %u",setLED));
